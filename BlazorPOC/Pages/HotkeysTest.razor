@@ -1,0 +1,37 @@
+﻿@page "/hotkeys-test"
+@implements IDisposable
+@using Toolbelt.Blazor.HotKeys
+@inject HotKeys HotKeys
+
+<h3>HotkeysTest</h3>
+<button @onclick="@SaveData">Save the Content</button>
+
+@code {
+    HotKeysContext HotKeysContext;
+
+    protected override void OnInitialized()
+    {
+        this.HotKeysContext = this.HotKeys.CreateContext()
+          .Add(ModKeys.Ctrl | ModKeys.Shift, Keys.A, Something, "testing shortcut keys");
+    }
+
+    void Something() //This will be invoked when Ctrl+Shift+A is typed.
+    {
+        Console.WriteLine("Saved Successfully!!");
+    }
+
+    void Save()
+    {
+        Console.WriteLine("Saved!!");
+    }
+    public void SaveData()
+    {
+        this.HotKeysContext = this.HotKeys.CreateContext()
+          .Add(ModKeys.Ctrl, Keys.S, Save, "do save"); 
+          Console.WriteLine("Saved!!");
+    }
+    public void Dispose()
+    {
+        this.HotKeysContext.Dispose(); 
+    }
+}

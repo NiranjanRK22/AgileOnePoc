@@ -1,0 +1,30 @@
+﻿@*@page "/usernames"
+@using System.Threading.Tasks
+@inject HttpClient Http
+
+<h3>Usernames</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var user in Usernames)
+        {
+            <tr>
+               <td>@user.UserName</td>
+           </tr>
+        } 
+    </tbody>
+</table>
+
+@code {
+    private List<UserDto> Usernames;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Usernames = await Http.GetFromJsonAsync<List<UserDto>>("api/users");
+    }
+}
+*@
